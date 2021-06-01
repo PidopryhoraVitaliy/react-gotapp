@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './charDetails.css';
+
 export default class CharDetails extends Component {
 
     render() {
@@ -24,6 +25,7 @@ export default class CharDetails extends Component {
                         <span>First</span>
                     </li>
                 </ul>
+
             </div>
         );
     }
