@@ -40,13 +40,21 @@ export default class GotService {
         return this._transformHouse(house);
     }
 
+    formatString = srt => {
+        const trimStr = srt.trim();
+        if (trimStr.length === 0) {
+            return '-';
+        }
+        return trimStr;
+    }
+
     _transformCharacter(char) {
         return {
-            name: char.name,
-            gender: char.gender,
-            born: char.born,
-            died: char.died,
-            culture: char.culture,
+            name: this.formatString(char.name),
+            gender: this.formatString(char.gender),
+            born: this.formatString(char.born),
+            died: this.formatString(char.died),
+            culture: this.formatString(char.culture),
         }
     }
 
