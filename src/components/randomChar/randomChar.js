@@ -6,16 +6,21 @@ import ErrorMessage from '../errorMessage';
 
 export default class RandomChar extends Component {
 
-    constructor() {
-        super();
-        this.updateChar();
-    }
-
     gotService = new GotService();
+
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 3000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
@@ -32,7 +37,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         //const id = 0;
         const id = Math.floor(Math.random() * 140 + 21);
         this.gotService.getCharacter(id)
@@ -62,7 +67,7 @@ const View = ({ char }) => {
     const { name, gender, born, died, culture } = char;
     return (
         <>
-            <h4>Random Character: {name}</h4>
+            <h4>Random: {name}</h4>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between">
                     <span className="term">Gender </span>

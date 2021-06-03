@@ -48,7 +48,7 @@ export default class GotService {
         return trimStr;
     }
 
-    _transformCharacter(char) {
+    _transformCharacter = (char) => {
         return {
             name: this.formatString(char.name),
             gender: this.formatString(char.gender),
@@ -58,7 +58,7 @@ export default class GotService {
         }
     }
 
-    _transformHouse(house) {
+    _transformHouse = (house) => {
         return {
             name: house.name,
             region: house.region,
@@ -69,7 +69,7 @@ export default class GotService {
         };
     }
     
-    _transformBook(book) {
+    _transformBook = (book) => {
         return {
             name: book.name,
             numberOfPages: book.numberOfPages,

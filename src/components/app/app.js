@@ -2,25 +2,32 @@ import React, { Component } from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
-import GotService from '../../services/gotService';
+import ErrorMessage from '../errorMessage';
+import CharacterPage from '../characterPage';
 
 export default class App extends Component {
 
-    constructor() {
-        super();
+    state = {
+        showRandomChar: true,
+        error: false
     }
 
-    state = {
-        showRandomChar: true
+    componentDidCatch() {
+        console.log('error App');
+        this.setState({error: true});
     }
 
     toggleVisibleRandomChar = () => {
-        this.setState({showRandomChar: !this.state.showRandomChar});
+        this.setState( (state) => {
+            return {showRandomChar: !state.showRandomChar}
+        });
     }
 
     render() {
+
+        if (this.state.error) {
+            return <ErrorMessage/>
+        }
 
         const { showRandomChar } = this.state;
         const elemRandomChar = showRandomChar ? <RandomChar/> : null;
@@ -34,23 +41,12 @@ export default class App extends Component {
                     <Row>
                         <Col lg={{size: 5, offset: 0}}>
                             {elemRandomChar}
-                        </Col>
-                    </Row>
-                    <Row mb='5'>
-                        <Col lg={{size: 5, offset: 0}}>
                             <Button color="success" onClick={this.toggleVisibleRandomChar}>
                                 Toggle Random Character
                             </Button>{' '}
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
                 </Container>
             </>
         );
