@@ -43,13 +43,22 @@ export default class GotService {
     formatString = srt => {
         const trimStr = srt.trim();
         if (trimStr.length === 0) {
-            return '-';
+            return '---';
         }
         return trimStr;
     }
 
+    getIdFromUrl = url => {
+        const match = url.match(/(\d+)(?!.*\d)/);
+        if (match === null) {
+            throw Error(`Cannot get id from url: ${url}`);
+        }
+        return match[1];
+    }
+
     _transformCharacter = (char) => {
         return {
+            id: this.getIdFromUrl(char.url),
             name: this.formatString(char.name),
             gender: this.formatString(char.gender),
             born: this.formatString(char.born),
@@ -60,21 +69,21 @@ export default class GotService {
 
     _transformHouse = (house) => {
         return {
-            name: house.name,
-            region: house.region,
-            words: house.words,
-            titles: house.titles,
-            overlord: house.overlord,
-            ancestralWeapons: house.ancestralWeapons
+            name: this.formatString(house.name),
+            region: this.formatString(house.region),
+            words: this.formatString(house.words),
+            titles: this.formatString(house.titles),
+            overlord: this.formatString(house.overlord),
+            ancestralWeapons: this.formatString(house.ancestralWeapons)
         };
     }
     
     _transformBook = (book) => {
         return {
-            name: book.name,
-            numberOfPages: book.numberOfPages,
-            publiser: book.publiser,
-            released: book.released
+            name: this.formatString(book.name),
+            numberOfPages: this.formatString(book.numberOfPages),
+            publiser: this.formatString(book.publiser),
+            released: this.formatString(book.released)
         };
     }
 
