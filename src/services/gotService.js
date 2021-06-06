@@ -5,7 +5,7 @@ export default class GotService {
         this._apiBase = 'https://www.anapioficeandfire.com/api';
     }
 
-    async getResource(url) {
+    getResource = async (url) => {
         const res = await fetch(this._apiBase + url);
         if (!res.ok) {
             throw new Error(`Cannot fetch ${url}, status: ${res.status}`);
@@ -13,39 +13,38 @@ export default class GotService {
         return await res.json();
     }
 
-    async getAllCharacters() {
+    getAllCharacters = async () => {
         const res = await this.getResource(`/characters?page=5&pageSize=10`);
         return res.map(this._transformCharacter);
     }
-    async getCharacter(id) {
+    getCharacter = async (id) => {
         const character = await this.getResource(`/characters/${id}`);
         return this._transformCharacter(character);
     }
 
-    async getAllBooks() {
+    getAllBooks = async () => {
         const res = await this.getResource(`/books`);
         return res.map(this._transformBook);
     }
-    async getBook(id) {
+    getBook = async (id) => {
         const book = await this.getResource(`/books/${id}`);
         return this._transformBook(book);
     }
     
-    async getAllHouses() {
+    getAllHouses = async () => {
         const res = await this.getResource(`/houses`);
         return res.map(this._transformHouse);
     }
-    async getHouse(id) {
+    getHouse = async (id) => {
         const house = this.getResource(`/houses/${id}`);
         return this._transformHouse(house);
     }
 
     formatString = srt => {
-        const trimStr = srt.trim();
-        if (trimStr.length === 0) {
-            return '---';
+        if (srt) {
+            return srt;
         }
-        return trimStr;
+        return '---';
     }
 
     getIdFromUrl = url => {
@@ -69,6 +68,7 @@ export default class GotService {
 
     _transformHouse = (house) => {
         return {
+            id: this.getIdFromUrl(house.url),
             name: this.formatString(house.name),
             region: this.formatString(house.region),
             words: this.formatString(house.words),
@@ -80,6 +80,7 @@ export default class GotService {
     
     _transformBook = (book) => {
         return {
+            id: this.getIdFromUrl(book.url),
             name: this.formatString(book.name),
             numberOfPages: this.formatString(book.numberOfPages),
             publiser: this.formatString(book.publiser),

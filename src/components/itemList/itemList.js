@@ -1,39 +1,40 @@
 import React, { Component } from 'react';
 import './itemList.css';
-import GotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
 export default class ItemList extends Component {
 
-    gotService = new GotService();
-
     state = {
-        charList: null,
+        itemList: null,
         error: false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then((charList) => {
-                if (charList.length === 0) {
+        const {getData} = this.props;
+        getData()
+            .then((itemList) => {
+                if (itemList.length === 0) {
                     this.setState({ error: true });
                     return;
                 }
-                this.setState({ charList })
+                this.setState({ itemList })
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err);
                 this.setState({ error: true });
             })
     }
 
     renderItems(arr) {
         return arr.map((item) => {
+            const {id} = item;
+            const label = this.props.renderItem(item);
             return (
                 <li className="list-group-item"
-                    key={item.id}
-                    onClick={() => this.props.onCharSelected(item.id)}>
-                    {item.name}
+                    key={id}
+                    onClick={() => this.props.onItemSelected(id)}>
+                    {label}
                 </li>
             )
         })
@@ -41,17 +42,17 @@ export default class ItemList extends Component {
 
     render() {
 
-        const { charList, error } = this.state;
+        const { itemList, error } = this.state;
 
         if (error) {
             return <ErrorMessage/>
         }
 
-        if (!charList) {
+        if (!itemList) {
             return <Spinner />
         }
 
-        const Items = this.renderItems(charList);
+        const Items = this.renderItems(itemList);
 
         return (
             <ul className="item-list list-group">
