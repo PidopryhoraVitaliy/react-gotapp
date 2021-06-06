@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import './charDetails.css';
-import GotService from '../../services/gotService';
+import './itemDetails.css';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -16,44 +15,42 @@ export {
     Fild
 }
 
-export default class CharDetails extends Component {
-
-    gotService = new GotService();
+export default class ItemDetails extends Component {
 
     state = {
-        char: null,
+        item: null,
         loading: true,
         error: false
     }
 
     componentDidMount() {
-        this.updateChar();
+        this.updateItem();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar();
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem();
         }
     }
 
-    updateChar = () => {
+    updateItem = () => {
         this.setState({
             loading: true,
             error: false
         });
-        const { charId } = this.props;
-        if (!charId) {
+        const { itemId } = this.props;
+        if (!itemId) {
             return
         }
-        this.gotService.getCharacter(charId)
-            .then((char) => {
+        this.props.getItem(itemId)
+            .then((item) => {
                 this.setState({
-                    char,
+                    item,
                     loading: false
                 })
             })
             .catch((err) => {
-                //console.log('err', err);
+                console.log('err', err);
                 this.setState({ error: true });
             });
         //this.foo.bar = 0;
@@ -61,22 +58,21 @@ export default class CharDetails extends Component {
 
     render() {
 
-        const { char, loading, error } = this.state;
+        const { item, loading, error } = this.state;
 
         if (error) {
             return <ErrorMessage />
         }
 
-        if (!char) {
-            return <span className='select-error'>Please select a character</span>
+        if (!item) {
+            return <span className='select-error'>Please select a item</span>
         }
 
         if (loading) {
             return <Spinner />;
         }
 
-        const item = char;
-        const {name} = char;
+        const {name} = item;
 
         return (
             <div className="char-details rounded">
