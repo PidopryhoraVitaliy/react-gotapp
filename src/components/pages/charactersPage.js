@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ItemList from '../../itemList';
-import ItemDetails, {Fild} from '../../itemDetails';
-import ErrorMessage from '../../errorMessage';
-import GotService from '../../../services/gotService';
-import RowBlock from '../../rowBlock';
+import ItemList from '../itemList';
+import ItemDetails, {Field} from '../itemDetails';
+import ErrorMessage from '../errorMessage';
+import GotService from '../../services/gotService';
+import RowBlock from '../rowBlock';
 
-export default class BookPage extends Component {
+export default class CharacterPage extends Component {
 
     gotService = new GotService();
 
@@ -15,7 +15,7 @@ export default class BookPage extends Component {
     }
 
     componentDidCatch() {
-        console.log('error BookPage');
+        console.log('error CharacterPage');
         this.setState({ error: true });
     }
 
@@ -33,19 +33,19 @@ export default class BookPage extends Component {
         const itemList = (
             <ItemList
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllBooks}
-                renderItem={(item) => `${item.id} - ${item.name}`}
+                getData={this.gotService.getAllCharacters}
+                renderItem={(item) => `${item.id} - ${item.name} (${item.gender})`}
             />
         )
 
         const itemDetails = (
             <ItemDetails
                 itemId={this.state.selectedId}
-                getItem={this.gotService.getBook}>
-                <Fild field='name' label='Name'/>
-                <Fild field='numberOfPages' label='Number of pages'/>
-                <Fild field='publiser' label='Publiser'/>
-                <Fild field='released' label='Released'/>
+                getItem={this.gotService.getCharacter}>
+                <Field field='gender' label='Gender'/>
+                <Field field='born' label='Born'/>
+                <Field field='died' label='Died'/>
+                <Field field='culture' label='Culture'/>
             </ItemDetails>
         )
 

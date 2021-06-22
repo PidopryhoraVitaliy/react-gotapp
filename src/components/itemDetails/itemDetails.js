@@ -3,7 +3,7 @@ import './itemDetails.css';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
-const Fild = ({ item, field, label }) => {
+const Field = ({ item, field, label }) => {
     return (
         <li className="list-group-item d-flex justify-content-between">
             <span className="term">{label}</span>
@@ -12,7 +12,7 @@ const Fild = ({ item, field, label }) => {
     )
 }
 export {
-    Fild
+    Field
 }
 
 export default class ItemDetails extends Component {

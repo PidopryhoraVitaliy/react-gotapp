@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ItemList from '../../itemList';
-import ItemDetails, {Fild} from '../../itemDetails';
-import ErrorMessage from '../../errorMessage';
-import GotService from '../../../services/gotService';
-import RowBlock from '../../rowBlock';
+import ItemList from '../itemList';
+import ItemDetails, {Field} from '../itemDetails';
+import ErrorMessage from '../errorMessage';
+import GotService from '../../services/gotService';
+import RowBlock from '../rowBlock';
 
-export default class CharacterPage extends Component {
+export default class BookPage extends Component {
 
     gotService = new GotService();
 
@@ -15,7 +15,7 @@ export default class CharacterPage extends Component {
     }
 
     componentDidCatch() {
-        console.log('error CharacterPage');
+        console.log('error BookPage');
         this.setState({ error: true });
     }
 
@@ -33,19 +33,19 @@ export default class CharacterPage extends Component {
         const itemList = (
             <ItemList
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
-                renderItem={(item) => `${item.id} - ${item.name} (${item.gender})`}
+                getData={this.gotService.getAllBooks}
+                renderItem={(item) => `${item.id} - ${item.name}`}
             />
         )
 
         const itemDetails = (
             <ItemDetails
                 itemId={this.state.selectedId}
-                getItem={this.gotService.getCharacter}>
-                <Fild field='gender' label='Gender'/>
-                <Fild field='born' label='Born'/>
-                <Fild field='died' label='Died'/>
-                <Fild field='culture' label='Culture'/>
+                getItem={this.gotService.getBook}>
+                <Field field='name' label='Name'/>
+                <Field field='numberOfPages' label='Number of pages'/>
+                <Field field='publiser' label='Publiser'/>
+                <Field field='released' label='Released'/>
             </ItemDetails>
         )
 
