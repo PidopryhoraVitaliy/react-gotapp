@@ -5,7 +5,14 @@ import RandomChar from '../randomChar';
 import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
 import { CharactersPage, BooksPage, BooksItem, HousesPage } from '../pages';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import './app.css';
+
+const MainPageTitle = styled.h1`
+    font-size: 24px;
+    color: #fff;
+`;
 
 export default class App extends Component {
 
@@ -39,31 +46,51 @@ export default class App extends Component {
         return (
             <Router>
                 <div className="app">
+
                     <Container>
                         <Header />
                     </Container>
+
                     <Container>
-                        <Row>
-                            <Col lg={{ size: 5, offset: 0 }}>
+
+                        <Row className='row'>
+                            <Col lg={{ size: 5, offset: 15 }}>
                                 {elemRandomChar}
-                                <Button color="success" onClick={this.toggleVisibleRandomChar}>
-                                    Toggle Random Character
-                                </Button>{' '}
+                                <div className='.toggle-btn'>
+                                    <Button color="success" onClick={this.toggleVisibleRandomChar}>
+                                        Toggle Random Character
+                                    </Button>
+                                </div>
                             </Col>
                         </Row>
 
-                        <Route path='/' exact component={() => <h1>Main page</h1>} />
-                        <Route path='/characters' component={CharactersPage} />
-                        <Route path='/houses' component={HousesPage} />
-                        <Route path='/books' exact component={BooksPage} />
-                        <Route path='/books/:id' render={
-                            ({match}) => {
-                                const {id} = match.params;
-                                return <BooksItem bookId={id}/>
+                        <Switch>
+                            <Route path='/' exact component={() => <MainPageTitle>WELCOME!!! This is - Main page</MainPageTitle>} />
+                            <Route path='/characters' component={CharactersPage} />
+                            <Route path='/houses' component={HousesPage} />
+                            <Route path='/books' exact component={BooksPage} />
+                            <Route path='/books/:id' render={
+                                ({ match }) => {
+                                    const { id } = match.params;
+                                    return <BooksItem bookId={id} />
+                                }
+                            } />
+                            <Route component={() => {
+                                return (
+                                    <>
+                                        <MainPageTitle>404 Page not found...</MainPageTitle>
+                                        <Link to='/'>
+                                            <Button color="warning">
+                                                go to the main page
+                                            </Button>
+                                        </Link>
+                                    </>
+                                )
                             }
-                        } />
-
+                            } />
+                        </Switch>
                     </Container>
+
                 </div>
             </Router>
         );
