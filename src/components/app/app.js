@@ -41,7 +41,7 @@ export default class App extends Component {
         }
 
         const { showRandomChar } = this.state;
-        const elemRandomChar = showRandomChar ? <RandomChar /> : null;
+        const elemRandomChar = showRandomChar ? <RandomChar interval={15000}/> : null;
 
         return (
             <Router>
