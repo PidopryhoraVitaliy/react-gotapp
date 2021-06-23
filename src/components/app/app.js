@@ -4,7 +4,7 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import ErrorMessage from '../errorMessage';
 import GotService from '../../services/gotService';
-import { CharactersPage, BooksPage, HousesPage } from '../pages';
+import { CharactersPage, BooksPage, BooksItem, HousesPage } from '../pages';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 export default class App extends Component {
@@ -52,10 +52,16 @@ export default class App extends Component {
                             </Col>
                         </Row>
 
-                        <Route path='/' component={() => <h1>Main page</h1>} />
+                        <Route path='/' exact component={() => <h1>Main page</h1>} />
                         <Route path='/characters' component={CharactersPage} />
-                        <Route path='/books' component={BooksPage} />
                         <Route path='/houses' component={HousesPage} />
+                        <Route path='/books' exact component={BooksPage} />
+                        <Route path='/books/:id' render={
+                            ({match}) => {
+                                const {id} = match.params;
+                                return <BooksItem bookId={id}/>
+                            }
+                        } />
 
                     </Container>
                 </div>
